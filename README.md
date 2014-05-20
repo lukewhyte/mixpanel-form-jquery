@@ -21,7 +21,7 @@ This will pass the same type of event as above, except the name will be 'Someone
 ````
 $('select[name="myDropDown"]').mixpanelEvent();
 ````
-With select elements, the plugin sends an event to mixpanel onblur containing the following properties: 
+With select elements, the plugin sends an event (fired onblur) to mixpanel containing the following properties: 
  - 'Date Sent'
  - 'Changed To': The name of the newly selected option (or 'No Change')
 
@@ -39,14 +39,14 @@ $('input[name="myRadios"]').mixpanelEvent();
 ````
 With radio buttons, the following properties are sent to mixpanel:
  - 'Date Sent'
- - 'Changed From'
- - 'Changed To'
+ - 'Changed From' - Old checked input value
+ - 'Changed To' - Newly checked input value
 
 <strong>Tracking a Page View:</strong> 
 ````
 $('body').mixpanelEvent();
 ````
-Passing 'body' as the jQuery selector will trigger an event on page load named 'PageViewSnapshot' with the property 'Time Sent'. It is also possible to pass various element values with this event. Eg.:
+Passing 'body' as the jQuery selector will trigger an event on page load named 'PageViewSnapshot' with the property 'Time Sent'. This event can also be passed a string containing a list of element values. Eg.:
 ````
 $('body').mixpanelEvent({
   checkVal: ['.myRadioButton', '.myCheckbox']
