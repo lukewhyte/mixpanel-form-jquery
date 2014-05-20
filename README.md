@@ -1,4 +1,4 @@
-<h1>Simplified Mixpanel Form Tracker</h1>
+<h1>Simplify Mixpanel Form Tracking</h1>
 This plugin simplifies Mixpanel implementation through jQuery selectors – extending mixpanel.track(). It is especially useful when working with forms. 
 
 When the selected element(s) are clicked, an event is sent to Mixpanel featuring a time stamp). If the element(s) is/are checkboxes, radio buttons or select elements additional properties are tracked. There's also an option to track page views.
