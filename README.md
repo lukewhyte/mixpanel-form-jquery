@@ -80,7 +80,7 @@ $('#myElement').mixpanelEvent({
 ````
 <strong>Mixpanel Documentation</strong>
 
-Here's some good links to Mixpanel implementation and documentation docs:
+Here's some good links to Mixpanel docs:
  - Developer Docs: https://mixpanel.com/help/reference
  - Mixpanel University: https://mixpanel.com/learn/get-started
 
