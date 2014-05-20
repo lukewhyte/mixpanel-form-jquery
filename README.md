@@ -77,7 +77,7 @@ $('#myElement').mixpanelEvent({
   // When calling the new method, it needs to be wrapped in the 'callback' method
   callback: function(that, element) { that.customEvent(event); }
 });
-
+````
 <strong>Mixpanel Documentation</strong>
 
 Here's some good links to Mixpanel implementation and documentation docs:
