@@ -118,9 +118,8 @@
     },
 
     mixpanel: function(result) {
-      console.log(result);
       // The mixpanel track event method
-      // mixpanel.track(result.eventType, result.properties);
+      mixpanel.track(result.eventType, result.properties);
     },
 
     init: function() {
