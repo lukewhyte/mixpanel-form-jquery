@@ -1,9 +1,9 @@
 (function($, window, document, undefined) {
   var pluginName = 'mixpanelEvent',
       defaults = {
-        checkVal: false,
-        eventName: false,
-        callback: false
+        checkVal: false, // used by trackArrival()
+        eventName: false, // set a custom event name
+        callback: false // add a custom method to the plugin
       };
 
   function TrackEvent(element, options) {
@@ -13,6 +13,7 @@
   }
 
   TrackEvent.prototype = {
+    // Used to set the event name to either a custom name or the closest ID to the element up the DOM tree
     setName: function() {
       return (this.options.eventName === false) ? this.$el.closest('[id]').attr('id') : this.options.eventName;
     },
@@ -39,6 +40,7 @@
     },
 
     trackArrival: function(elements) {
+      // This is fired on page load if the selector is 'body'
       var result = {
             eventType: 'PageViewSnapshot',
             properties: {
@@ -125,8 +127,9 @@
       var $el = this.$el,
           that = this;
 
-      if (typeof this.options.callback === 'function') { 
-        this.options.callback();
+      // Here we check for a callback function, if one exists, we pass it 'this' + the selector and then defer
+      if (typeof this.options.callback === 'function') {
+        this.options.callback(this, this.$el);
         return;
       }
 

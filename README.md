@@ -58,25 +58,24 @@ The above will send a 'PageViewSnapshot' event to mixpanel with an additional pr
 
 You can easily extend the plugin to support unique tracking methods using the following implementation:
 ````
-var customEvent = function(event) {
-  var $target = $(event.target), // This isn't necessary, but useful with click events
-      result = {
-        eventType: this.setName(), // The event name needs the key 'eventType'
-        properties: { // some badass code }
-      };
-  // Some more badass code
-  this.mixpanel(result); // This method contains mixpanel.track()
+var customEvent = function(that, element) { // This can be any function, this is just an example
+  // the 'that' argument is actually the 'this' object passed over from the plugin
+  // the 'element' argument is the targeted selector wrapped in a jQuery object and passed over from the plugin 
+  element.click(function(event) {
+    var $target = $(event.target),
+        result = {
+          eventType: that.setName(), // The event name needs the key 'eventType'
+          properties: { // some badass code }
+        };
+    // Some more badass code
+    that.mixpanel(result); // This method contains mixpanel.track()
+  });
 };
 
-$.extend(true, $.fn['mixpanelEvent'].prototype, customEvent); // This adds your method to the plugin
-
+// Now we call the new method
 $('#myElement').mixpanelEvent({
-  callback: function() { // When calling the new method, it needs to be wrapped in the 'callback' method
-    var that = this;
-    this.click(function(event) {
-      that.customEvent(event);
-    });
-  }
+  // When calling the new method, it needs to be wrapped in the 'callback' method
+  callback: function(that, element) { that.customEvent(event); }
 });
 
 <strong>Mixpanel Documentation</strong>
