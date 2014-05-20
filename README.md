@@ -56,7 +56,7 @@ The above will send a 'PageViewSnapshot' event to mixpanel with an additional pr
 
 <strong>Extending the Plugin</strong>
 
-You can easily extend the plugin to support unique tracking methods using the following implementation:
+You can extend the plugin to support unique tracking methods using the following implementation:
 ````
 var customEvent = function(that, element) { // This can be any function, this is just an example
   // the 'that' argument is actually the 'this' object passed over from the plugin
