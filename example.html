@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Test Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+  </head>
+  <body>
+    <form>
+      <input type="text" name="first and last name" value="First and Last Name" size="20" maxlength="100"><br /><br />
+
+      <input type="password" id="majorBlazer" name="password" value="Password" size="20" maxlength="100"><br /><br />
+
+      <textarea cols="20" rows="5" name="typehere" wrap="physical"></textarea><br /><br />
+
+      <input type="checkbox" name="color" id="comeAtMeBro" value="Purple" checked style="border:0px;">Purple<input type="checkbox" name="color" value="Red" style="border:0px;">Red<br><input type="checkbox" name="color" value="Yellow" style="border:0px;">Yellow<input type="checkbox" name="color" value="Blue" style="border:0px;">Blue<br /><br />
+
+      <input type="radio" name="range" value="Purple" checked style="border:0px;">Purple<input type="radio" name="range" value="Red" style="border:0px;">Red<br><input class="hello" type="radio" name="range" value="Yellow" style="border:0px;">Yellow<input type="radio" name="range" value="Blue" style="border:0px;">Blue<br /><br />
+
+      <select name="colormenu">
+        <option value="1" SELECTED>Purple</option>
+        <option value="2">Red</option>
+        <option value="3">Yellow</option>
+        <option value="4">Rock</option>
+      </select><br /><br />
+      
+      <input type="submit" name="send" value="Submit" width="15" height="10">
+    </form>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="mixpanel.events.js"></script>
+    <script>
+      $(function() {
+        var trackRadio = function(e) {
+          var $old = this.$el.siblings(':checked'),
+              $next = $(e.target);
+              result = {
+                eventType: this.setName(),
+                properties: {
+                  'Time Sent': this.getTimeStamp(),
+                  'Changed From': (typeof $old.val() !== 'undefined') ? $old.val() : 'unselected',
+                  'Changed To': $next.val()
+                }
+              };
+          $old.prop('checked', false);
+          $next.prop('checked', true);
+          this.mixpanel(result);
+        };
+
+        $.extend(true, $.fn['mixpanelEvent'].prototype, trackRadio);
+
+
+        $('body').mixpanelEvent({
+          checkVal: ['[name="range"]', '[name="color"]']
+        });
+
+        $('input[name="password"]').mixpanelEvent({
+          eventName: 'Changing this password'
+        });
+
+        $('select[name="colormenu"]').mixpanelEvent({
+          eventName: 'Jah Please!'
+        });
+
+
+        $('input[name="color"]').mixpanelEvent({
+          eventName: 'Come At Me, Bro!'
+        });
+
+
+        $('input[name="range"]').mixpanelEvent({
+          eventName: 'Radioz be fun!'
+        });
+      });
+    </script>
+  </body>
+</html>
