@@ -1,0 +1,161 @@
+(function($, window, document, undefined) {
+  var pluginName = 'mixpanelEvent',
+      defaults = {
+        checkVal: false,
+        eventName: false,
+        callback: false
+      };
+
+  function TrackEvent(element, options) {
+    this.$el = $(element);
+    this.options = $.extend({}, defaults, options);
+    this.init();
+  }
+
+  TrackEvent.prototype = {
+    setName: function() {
+      return (this.options.eventName === false) ? this.$el.closest('[id]').attr('id') : this.options.eventName;
+    },
+
+    getTimeStamp: function() {
+      // Widdle the Date object to fit Mixpanel's format
+      var d = new Date(),
+          d = d.toISOString(),
+          d = d.split('.');
+
+      d.pop();
+      return d.join();
+    },
+
+    basicReport: function() {
+      // This is used to track an event where only generic data is needed
+      var result = {
+            eventType: this.setName(),
+            properties: {
+              'Time Sent': this.getTimeStamp()
+            }
+          };
+      this.mixpanel(result);
+    },
+
+    trackArrival: function(elements) {
+      var result = {
+            eventType: 'PageViewSnapshot',
+            properties: {
+              'Time Sent': this.getTimeStamp()
+            }
+          };
+
+      if (elements) {
+        var array = $.isArray(elements) ? elements : [elements],
+            vals = '', i = 0, max = array.length;
+
+        for (; i < max; i++) {
+          vals += $(array[i]).val();
+          if (i < max - 1) { vals += ', '; }
+        }
+
+        result.properties['Pre-selected'] = vals;   
+      }
+
+      this.mixpanel(result);
+    },
+
+    trackSelect: function() {
+      var that = this,
+          origVal = this.$el.find(':selected').text(),
+
+          result = {
+            eventType: this.setName(),
+            properties: {
+              'Time Sent': this.getTimeStamp(),
+              'Changed To': 'No Change: ' +  origVal.replace(/\s+/g, ' ') // This is default
+            }
+          },
+
+          action = function() {
+            var newVal = that.$el.find(':selected').text();
+            if (origVal !== newVal) { 
+              result.properties['Changed To'] = newVal.replace(/\s+/g, ' '); // Did they choose a new option?
+            }
+            that.mixpanel(result);
+          };
+
+      // Record the state of their action onblur
+      this.$el.bind('blur', action);
+    },
+
+    trackCheckbox: function(e) {
+      var box = e.target,
+          which = box.checked ? 'checked' : 'unchecked',
+          result = {
+            eventType: this.setName(),
+            properties: {
+              'Time Sent': this.getTimeStamp(),
+              'Action': $(box).val() + ' was ' + which
+            }
+          };
+
+      this.mixpanel(result);
+    },
+
+    trackRadio: function(e) {
+      var $old = this.$el.siblings(':checked'),
+          $next = $(e.target);
+          result = {
+            eventType: this.setName(),
+            properties: {
+              'Time Sent': this.getTimeStamp(),
+              'Changed From': (typeof $old.val() !== 'undefined') ? $old.val() : 'unselected',
+              'Changed To': $next.val()
+            }
+          };
+      $old.prop('checked', false);
+      $next.prop('checked', true);
+      this.mixpanel(result);
+    },
+
+    mixpanel: function(result) {
+      console.log(result);
+      // The mixpanel track event method
+      // mixpanel.track(result.eventType, result.properties);
+    },
+
+    init: function() {
+      var $el = this.$el,
+          that = this;
+
+      if (typeof this.options.callback === 'function') { 
+        this.options.callback();
+        return;
+      }
+
+      if ($el.is('body')) { this.trackArrival(this.options.checkVal) }
+      else if ($el.is(':checkbox')) {
+        $el.click(function(e) {
+          that.trackCheckbox(e)
+        });
+      }
+      else if ($el.is(':radio')) {
+        $el.on('mousedown', function(e) {
+          that.trackRadio(e);
+        });
+      }
+      else if ($el.is('select')) { this.trackSelect(); }
+      else { 
+        $el.click(function() { 
+          that.basicReport(); 
+        }); 
+      }
+    }
+  };
+
+  $.fn[pluginName] = function(options) {
+    return this.each(function() {
+      if (!$.data(this, pluginName)) {
+        $.data(this, pluginName, new TrackEvent(this, options));
+      }
+    });
+  };
+
+}(jQuery, window, document));
