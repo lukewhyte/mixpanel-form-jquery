@@ -31,7 +31,7 @@
     basicReport: function() {
       // This is used to track an event where only generic data is needed
       var result = {
-            eventType: this.setName(),
+            eventName: this.setName(),
             properties: {
               'Time Sent': this.getTimeStamp()
             }
@@ -42,7 +42,7 @@
     trackArrival: function(elements) {
       // This is fired on page load if the selector is 'body'
       var result = {
-            eventType: 'PageViewSnapshot',
+            eventName: 'PageViewSnapshot',
             properties: {
               'Time Sent': this.getTimeStamp()
             }
@@ -68,7 +68,7 @@
           origVal = this.$el.find(':selected').text(),
 
           result = {
-            eventType: this.setName(),
+            eventName: this.setName(),
             properties: {
               'Time Sent': this.getTimeStamp(),
               'Changed To': 'No Change: ' +  origVal.replace(/\s+/g, ' ') // This is default
@@ -91,7 +91,7 @@
       var box = e.target,
           which = box.checked ? 'checked' : 'unchecked',
           result = {
-            eventType: this.setName(),
+            eventName: this.setName(),
             properties: {
               'Time Sent': this.getTimeStamp(),
               'Action': $(box).val() + ' was ' + which
@@ -105,7 +105,7 @@
       var $old = this.$el.siblings(':checked'),
           $next = $(e.target);
           result = {
-            eventType: this.setName(),
+            eventName: this.setName(),
             properties: {
               'Time Sent': this.getTimeStamp(),
               'Changed From': (typeof $old.val() !== 'undefined') ? $old.val() : 'unselected',
@@ -119,7 +119,7 @@
 
     mixpanel: function(result) {
       // The mixpanel track event method
-      mixpanel.track(result.eventType, result.properties);
+      mixpanel.track(result.eventName, result.properties);
     },
 
     init: function() {
