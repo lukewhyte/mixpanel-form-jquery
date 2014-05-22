@@ -1,4 +1,4 @@
-(function($, window, document, undefined) {
+;(function($, window, document, undefined) {
   var pluginName = 'mixpanelEvent',
       defaults = {
         checkVal: false, // used by trackArrival()
@@ -102,18 +102,13 @@
     },
 
     trackRadio: function(e) {
-      var $old = this.$el.siblings(':checked'),
-          $next = $(e.target);
-          result = {
+      var result = {
             eventName: this.setName(),
             properties: {
               'Time Sent': this.getTimeStamp(),
-              'Changed From': (typeof $old.val() !== 'undefined') ? $old.val() : 'unselected',
-              'Changed To': $next.val()
+              'Changed To': $(e.target).val()
             }
           };
-      $old.prop('checked', false);
-      $next.prop('checked', true);
       this.mixpanel(result);
     },
 
@@ -139,7 +134,7 @@
         });
       }
       else if ($el.is(':radio')) {
-        $el.on('mousedown', function(e) {
+        $el.click(function(e) {
           that.trackRadio(e);
         });
       }

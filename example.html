@@ -19,6 +19,8 @@ mixpanel.init("YOUR TOKEN");</script>
     <form>
       <input type="checkbox" name="color" value="Purple" checked style="border:0px;">Purple<input type="checkbox" name="color" value="Red" style="border:0px;">Red<br><input type="checkbox" name="color" value="Yellow" style="border:0px;">Yellow<input type="checkbox" name="color" value="Blue" style="border:0px;">Blue<br /><br />
 
+      <input type="radio" name="range" value="Purple" checked style="border:0px;">Purple<input type="radio" name="range" value="Red" style="border:0px;">Red<br><input type="radio" name="range" value="Yellow" style="border:0px;">Yellow<input type="radio" name="range" value="Blue" style="border:0px;">Blue<br /><br />
+
       <select name="colormenu" id="thisWillBeTheEvenName">
         <option value="1" SELECTED>Purple</option>
         <option value="2">Red</option>
@@ -35,6 +37,10 @@ mixpanel.init("YOUR TOKEN");</script>
 
         $('input[name="color"]').mixpanelEvent({
           eventName: 'Come At Me, Bro!'
+        });
+
+        $('input[name="range"]').mixpanelEvent({
+          eventName: 'Radio Time'
         });
 
         $('body').mixpanelEvent({
