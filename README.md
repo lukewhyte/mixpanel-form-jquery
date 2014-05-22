@@ -39,7 +39,6 @@ $('input[name="myRadios"]').mixpanelEvent();
 ````
 With radio buttons, the following properties are sent to mixpanel:
  - 'Date Sent'
- - 'Changed From' - Old checked input value
  - 'Changed To' - Newly checked input value
 
 <strong>Tracking a Page View:</strong> 
