@@ -127,10 +127,10 @@
         return;
       }
 
-      if ($el.is('body')) { this.trackArrival(this.options.checkVal) }
+      if ($el.is('body')) { this.trackArrival(this.options.checkVal); }
       else if ($el.is(':checkbox')) {
         $el.click(function(e) {
-          that.trackCheckbox(e)
+          that.trackCheckbox(e);
         });
       }
       else if ($el.is(':radio')) {
