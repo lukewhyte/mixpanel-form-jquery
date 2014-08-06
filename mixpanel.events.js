@@ -20,9 +20,10 @@
 
     getTimeStamp: function() {
       // Widdle the Date object to fit Mixpanel's format
-      var d = new Date(),
-          d = d.toISOString(),
-          d = d.split('.');
+      var d = new Date();
+      
+      d = d.toISOString();
+      d = d.split('.');
 
       d.pop();
       return d.join();
@@ -123,14 +124,16 @@
 
       // Here we check for a callback function, if one exists, we pass it 'this' + the selector and then defer
       if (typeof this.options.callback === 'function') {
-        this.options.callback(this, this.$el);
+        $el.click(function(e) {
+          that.options.callback(that, $el, e);
+        });
         return;
       }
 
-      if ($el.is('body')) { this.trackArrival(this.options.checkVal) }
+      if ($el.is('body')) { this.trackArrival(this.options.checkVal); }
       else if ($el.is(':checkbox')) {
         $el.click(function(e) {
-          that.trackCheckbox(e)
+          that.trackCheckbox(e);
         });
       }
       else if ($el.is(':radio')) {

@@ -57,9 +57,12 @@ The above will send a 'PageViewSnapshot' event to mixpanel with an additional pr
 
 You can extend the plugin to support unique tracking methods using the following implementation:
 ````
-var customEvent = function(that, $element) { 
+var customEvent = function customEvent (that, $element, event) { 
   // 'that' = the 'this' keyword from the plugin instance
   // '$element' = the targeted selector wrapped in a jQuery object
+  // 'event' = the target that triggered the event, useful for event.target
+
+  // Some badass code that gathers data on the event
 
   var result = { 
     // You'll need to pass an object to the mixpanel method containin the following two keys:
@@ -67,15 +70,12 @@ var customEvent = function(that, $element) {
     properties: { // some badass code }
   };
 
-  // Some more badass code
-
   that.mixpanel(result); // This method contains mixpanel.track()
 };
 
 // Now we call the new method
 $('#myElement').mixpanelEvent({
-  // When calling the new method, it needs to be wrapped in the 'callback' method
-  callback: function(that, $element) { that.customEvent(that, $element); }
+  callback: customEvent
 });
 ````
 <strong>Mixpanel Documentation</strong>
