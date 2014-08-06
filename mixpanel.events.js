@@ -20,13 +20,12 @@
 
     getTimeStamp: function() {
       // Widdle the Date object to fit Mixpanel's format
-      var d = new Date();
-      
-      d = d.toISOString();
-      d = d.split('.');
+      var raw = new Date(),
+        date = raw.toISOString().split('.');
 
-      d.pop();
-      return d.join();
+      date.pop();
+      
+      return date.join();
     },
 
     basicReport: function() {
