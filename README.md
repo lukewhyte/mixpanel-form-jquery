@@ -17,6 +17,18 @@ $('#myImage').mixpanelEvent({
 ````
 This will pass the same type of event as above, except the name will be 'Someone clicked my image!' as opposed to the element's ID
 
+<strong>Passing Custom Properties:</strong>
+````
+$('#myImage').mixpanelEvent({
+  eventName: 'Someone clicked my image!',
+  customProperties: {
+    dogWill: 'hunt',
+    yoSoy: 'Ironman'
+  }
+});
+````
+The customProperties object will be merged with any other plugin properties (eg. 'timeSent') and passed to the mixpanel properties object
+
 <strong>Select Elements:</strong>
 ````
 $('select[name="myDropDown"]').mixpanelEvent();

@@ -3,7 +3,8 @@
       defaults = {
         checkVal: false, // used by trackArrival()
         eventName: false, // set a custom event name
-        callback: false // add a custom method to the plugin
+        callback: false, // add a custom method to the plugin
+        customProperties: false // obj of properties to be append to the pre-existing properties obj
       };
 
   function TrackEvent(element, options) {
@@ -113,6 +114,11 @@
     },
 
     mixpanel: function(result) {
+      // Tack any custom properties to the properties object
+      if (this.options.customProperties) {
+        $.extend(result.properties, this.options.customProperties);
+      }
+
       // The mixpanel track event method
       mixpanel.track(result.eventName, result.properties);
     },
